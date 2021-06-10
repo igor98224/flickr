@@ -9,9 +9,9 @@ import UIKit
 import MBProgressHUD
 
 class ImageViewController: UIViewController {
-    var currentPage: Int = 1
-    let presenter = ImageViewPresenter()
-    var hasMore: Bool = true
+    private var currentPage: Int = 1
+    private let presenter = ImageViewPresenter()
+    private var hasMore: Bool = true
     
     private var collectionViewFlowLayout: UICollectionViewFlowLayout!
     
@@ -26,7 +26,6 @@ class ImageViewController: UIViewController {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
                 self.collectionView.scrollToItem(at:IndexPath(item: 0, section: 0), at: .right, animated: false)
-
             }
             MBProgressHUD.hide(for: self.view, animated: true)
         }
@@ -39,7 +38,8 @@ class ImageViewController: UIViewController {
         updateCollectionViewItemSize()
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+//MARK: - Overrides
+    override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
       coordinator.animate(alongsideTransition: { (_) in
         self.updateCollectionViewItemSize()
       }, completion: nil)
@@ -53,7 +53,28 @@ class ImageViewController: UIViewController {
             photoViewController.photo = presenter.photos[indexPath.row]
         }
     }
+
+//MARK: - Data related
+    private func searchMorePhotos(completion: ((_ success: Bool) -> Void)?) -> Void {
+        presenter.getPhotos(page: currentPage, searchText: searchBar.text, completion: { [weak self] photos in
+            guard let self = self else { return }
+            self.hasMore = !photos.isEmpty
+            let newCount = self.presenter.photos.count
+            let prevCount = newCount - photos.count
+            self.insertMorePhotos(at: prevCount, count: photos.count)
+            
+            completion?(true)
+        })
+    }
     
+    private func insertMorePhotos(at index: Int, count: Int)  {
+        guard count > 0 else { return }
+        let indicies = Array(index ..< index + count)
+        let indexPaths = indicies.compactMap({ IndexPath(item: $0, section: 0) })
+        collectionView?.insertItems(at: indexPaths)
+    }
+    
+//MARK: - UI related
     private func setupCollectionViewLayout() {
       collectionViewFlowLayout = UICollectionViewFlowLayout()
       collectionView.setCollectionViewLayout(collectionViewFlowLayout, animated: true)
@@ -70,50 +91,6 @@ class ImageViewController: UIViewController {
         collectionViewFlowLayout.minimumLineSpacing = 0
         collectionViewFlowLayout.minimumInteritemSpacing = 0
     }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == (presenter.photos.count - 1), hasMore {
-            currentPage += 1
-            searchMorePhotos(completion: nil)
-        }
-    }
-    func searchMorePhotos(completion: ((_ success: Bool) -> Void)?) -> Void {
-        presenter.getPhotos(page: currentPage, searchText: searchBar.text, completion: { [weak self] photos in
-            guard let self = self else { return }
-            self.hasMore = !photos.isEmpty
-            let newCount = self.presenter.photos.count
-            let prevCount = newCount - photos.count
-            self.insertPhotos(at: prevCount, count: photos.count)
-            
-            completion?(true)
-        })
-    }
-    func insertPhotos(at index: Int, count: Int)  {
-        guard count > 0 else { return }
-        let indicies = Array(index ..< index + count)
-        let indexPaths = indicies.compactMap({ IndexPath(item: $0, section: 0) })
-        collectionView?.insertItems(at: indexPaths)
-        
-    }
-}
-//MARK: - Empty Message Extension
-extension UICollectionView {
-
-    func setEmptyMessage(_ message: String) {
-        let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height))
-        messageLabel.text = message
-        messageLabel.textColor = .black
-        messageLabel.numberOfLines = 0;
-        messageLabel.textAlignment = .center;
-        messageLabel.font = UIFont(name: "TrebuchetMS", size: 15)
-        messageLabel.sizeToFit()
-
-        self.backgroundView = messageLabel;
-    }
-
-    func restore() {
-        self.backgroundView = nil
-    }
 }
 
 //MARK: - CollectionViewDataSource, CollectionViewDelegate
@@ -122,7 +99,7 @@ extension ImageViewController: UICollectionViewDataSource, UICollectionViewDeleg
         if self.presenter.photos.isEmpty {
             self.collectionView.setEmptyMessage("Nothing to show :(")
         } else {
-            self.collectionView.restore()
+            self.collectionView.hideBackgroundView()
         }
         return self.presenter.photos.count
     }
@@ -137,6 +114,32 @@ extension ImageViewController: UICollectionViewDataSource, UICollectionViewDeleg
     public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let cell = cell as? PhotoCell
         cell?.cancelImageLoading()
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == (presenter.photos.count - 1), hasMore {
+            currentPage += 1
+            searchMorePhotos(completion: nil)
+        }
+    }
+}
+
+//MARK: - Empty Message Extension
+extension UICollectionView {
+    func setEmptyMessage(_ message: String) {
+        let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height))
+        messageLabel.text = message
+        messageLabel.textColor = .black
+        messageLabel.numberOfLines = 0;
+        messageLabel.textAlignment = .center;
+        messageLabel.font = UIFont(name: "TrebuchetMS", size: 15)
+        messageLabel.sizeToFit()
+
+        self.backgroundView = messageLabel;
+    }
+
+    func hideBackgroundView() {
+        self.backgroundView = nil
     }
 }
 

@@ -12,7 +12,7 @@ class ImageViewPresenter {
     var photos: [PhotoModel] = []
     
     public func getPhotos(page: Int = 1, searchText: String? = nil, completion: @escaping ([PhotoModel]) -> Void) {
-        network.fetchPhotos(searchText: searchText, page: String(page)) { [weak self] photos in
+        network.fetchPhotosFromAPI(searchText: searchText, page: String(page)) { [weak self] photos in
             guard let self = self else { return }
             if page == 1 {
                 self.photos = photos ?? []

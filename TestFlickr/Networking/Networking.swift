@@ -10,7 +10,7 @@ import Alamofire
 import SwiftyJSON
 
 class Networking {
-    func fetchPhotos(searchText: String? = nil, page: String, completion: (([PhotoModel]?) -> Void)? = nil) {
+    func fetchPhotosFromAPI(searchText: String? = nil, page: String, completion: (([PhotoModel]?) -> Void)? = nil) {
         let api = APIConfig()
         let url = URL(string: api.url)!
         var parameters = APIModel.init(method: "flickr.interestingness.getList", api_key: api.apiKey, per_page: "10", page: page, format: "json", nojsoncallback: "1", extras: "url_z")
@@ -39,6 +39,6 @@ class Networking {
                     print("Error: \(error.localizedDescription)")
                     completion?(nil)
                 }
-        }
+            }
     }
 }
