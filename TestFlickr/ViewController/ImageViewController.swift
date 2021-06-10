@@ -43,7 +43,8 @@ class ImageViewController: UIViewController {
       coordinator.animate(alongsideTransition: { (_) in
         self.updateCollectionViewItemSize()
       }, completion: nil)
-      super.viewWillTransition(to: size, with: coordinator)
+        collectionView.collectionViewLayout.invalidateLayout()
+        super.viewWillTransition(to: size, with: coordinator)
     }
     
     override public func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -60,7 +61,7 @@ class ImageViewController: UIViewController {
     
     private func updateCollectionViewItemSize() {
         let width = collectionView.frame.width
-        let height = width
+        let height = collectionView.frame.height
         
         collectionView.isPagingEnabled = true
         

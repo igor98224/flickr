@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="24v-Tn-TKQ">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_1" orientation="landscape" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -14,11 +14,11 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ImageViewController" customModule="TestFlickr" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="4" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="k0y-fU-uca">
-                                <rect key="frame" x="0.0" y="139" width="414" height="723"/>
+                                <rect key="frame" x="44" y="95" width="808" height="298"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="F4a-Yq-TcL">
                                     <size key="itemSize" width="413" height="723"/>
@@ -28,13 +28,13 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCell" id="t2t-Yv-SAZ" customClass="PhotoCell" customModule="TestFlickr" customModuleProvider="target">
-                                        <rect key="frame" x="0.5" y="0.0" width="413" height="723"/>
+                                        <rect key="frame" x="197.5" y="0.0" width="413" height="723"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="m4a-qO-kWp">
                                             <rect key="frame" x="0.0" y="0.0" width="413" height="723"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mBa-Rg-6WS">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mBa-Rg-6WS">
                                                     <rect key="frame" x="0.0" y="0.0" width="413" height="723"/>
                                                 </imageView>
                                             </subviews>
@@ -42,6 +42,7 @@
                                                 <constraint firstItem="mBa-Rg-6WS" firstAttribute="centerY" secondItem="m4a-qO-kWp" secondAttribute="centerY" id="1zQ-cp-Hgx"/>
                                                 <constraint firstAttribute="trailing" secondItem="mBa-Rg-6WS" secondAttribute="trailing" id="Akc-V6-MIh"/>
                                                 <constraint firstItem="mBa-Rg-6WS" firstAttribute="centerX" secondItem="m4a-qO-kWp" secondAttribute="centerX" id="Nta-iL-UGz"/>
+                                                <constraint firstAttribute="bottom" secondItem="mBa-Rg-6WS" secondAttribute="bottom" id="RyR-fz-MrJ"/>
                                                 <constraint firstItem="mBa-Rg-6WS" firstAttribute="top" secondItem="m4a-qO-kWp" secondAttribute="top" id="e7h-nS-rjj"/>
                                                 <constraint firstItem="mBa-Rg-6WS" firstAttribute="leading" secondItem="m4a-qO-kWp" secondAttribute="leading" id="v2y-dO-RA6"/>
                                             </constraints>
@@ -54,7 +55,7 @@
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="32h-Bb-EfX">
-                                    <rect key="frame" x="0.0" y="723" width="414" height="50"/>
+                                    <rect key="frame" x="0.0" y="723" width="808" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </collectionReusableView>
                                 <connections>
@@ -63,7 +64,7 @@
                                 </connections>
                             </collectionView>
                             <searchBar contentMode="redraw" placeholder="Search text" translatesAutoresizingMaskIntoConstraints="NO" id="QXa-I4-3GX">
-                                <rect key="frame" x="0.0" y="88" width="414" height="51"/>
+                                <rect key="frame" x="44" y="44" width="808" height="51"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="SyB-GQ-i47"/>
@@ -98,11 +99,11 @@
             <objects>
                 <viewController id="AyI-m1-Sod" customClass="PhotoViewController" customModule="TestFlickr" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4Br-D2-Ktb">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fdw-Ms-wRF">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="44" y="44" width="808" height="349"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="OeM-tc-RVP"/>
@@ -129,7 +130,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="24v-Tn-TKQ" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="urP-vx-Bgo">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="896" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
